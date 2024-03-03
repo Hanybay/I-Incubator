@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Votre Titre</title>
+    <style>
+          body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f8f8f8;
+        color: #333;
+        margin: 20px;
+    }
+
+    .container {
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+    h2, h3, h4 {
+        color: #4d4d4d;
+    }
+
+    h2 {
+        border-bottom: 2px solid #ccc;
+        padding-bottom: 5px;
+    }
+
+    h3, h4 {
+        margin-top: 20px;
+    }
+
+    ul {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    li {
+        margin-bottom: 10px;
+    }
+
+    p {
+        margin-bottom: 5px;
+    }
+
+    .signature, .address {
+        border-top: 2px solid #ccc;
+        margin-top: 20px;
+        padding-top: 10px;
+    }
+
+    /* Style spécifique pour la signature */
+    .signature p {
+        font-style: italic;
+    }
+
+    /* Style spécifique pour l'adresse */
+    .address p {
+        font-weight: bold;
+    }
+    </style>
+</head>
+<body>
+    <div th:each="contenu : ${listeContenus}">
+        <!-- Afficher les entrées du menu -->
+        <!-- Afficher les menus -->
+<h2>Menus</h2>
+<ul th:if="${contenu.presentationPrestation != null and contenu.presentationPrestation.listeMenu != null}">
+    <li th:each="menu, menuIndex : ${contenu.presentationPrestation.listeMenu}">
+        <h3>Menu <span th:text="${menuIndex.index + 1}"></span></h3>
+
+        <!-- Affichage des entrées du menu -->
+        <h4>Entrées</h4>
+        <ul th:if="${menu.listeEntree != null}">
+            <li th:each="entree, entreeIndex: ${menu.listeEntree}">
+                <p><strong>Nom de l'entrée <span th:text="${entreeIndex.index + 1}"></span>: <span th:text="${entree.nomEntree}"></span></strong></p>
+                <p><strong>Ingrédients: </strong><span th:text="${entree.listeIngredients}"></span></p>
+                <p><strong>Tarif: </strong><span th:text="${entree.tarif}"></span></p>
+            </li>
+        </ul>
+
+        <!-- Affichage des plats du menu -->
+        <h4>Plats</h4>
+        <ul th:if="${menu.listePlat != null}">
+            <li th:each="plat, platIndex: ${menu.listePlat}">
+                <p><strong>Nom du plat <span th:text="${platIndex.index + 1}"></span>: <span th:text="${plat.nomPlat}"></span></strong></p>
+                <p><strong>Ingrédients:</strong> <span th:text="${plat.listeIngredients}"></span></p>
+                <p><strong>Tarif:</strong><span th:text="${plat.tarif}"></span></p>
+            </li>
+        </ul>
+
+        <!-- Affichage des desserts du menu -->
+        <h4>Desserts</h4>
+        <ul th:if="${menu.listeDessert != null}">
+            <li th:each="dessert, dessertIndex: ${menu.listeDessert}">
+                <p><strong>Nom du dessert <span th:text="${dessertIndex.index + 1}"></span>: <span th:text="${dessert.nomDessert}"></span></strong></p>
+                <p><strong>Ingrédients: </strong><span th:text="${dessert.listeIngredients}"></span></p>
+                <p><strong>Tarif: </strong><span th:text="${dessert.tarif}"></span></p>
+            </li>
+        </ul>
+    </li>
+</ul>
+
+<!-- Affichage de la signature -->
+        <h2>Signature</h2>
+        <p><strong>Nom de l'entreprise:</strong><span th:text="${contenu.signature.nomEntreprise}"></span></p>
+        <p><strong>Email:</strong> <span th:text="${contenu.signature.email}"></span></p>
+        <p><strong>Numéro de téléphone:</strong> <span th:text="${contenu.signature.numTel}"></span></p>
+
+<!-- Affichage de l'adresse -->
+        <h2>Adresse</h2>
+        <p><strong>Numéro de rue:</strong> <span th:text="${contenu.signature.adresse.numeroRue}"></span></p>
+        <p><strong>Rue:</strong> <span th:text="${contenu.signature.adresse.rue}"></span></p>
+        <p><strong>Code postal:</strong> <span th:text="${contenu.signature.adresse.codePostal}"></span></p>
+        <hr>
+    </div>
+</body>
+</html>

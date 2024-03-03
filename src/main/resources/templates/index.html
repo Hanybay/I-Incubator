@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/style.css}" >
+    <title>I - incubator</title>
+    <!-- CSS Bootstrap (vérifiez la version utilisée) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+    <!-- CSS DatePicker de Bootstrap -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+
+</head>
+<body>
+    <div id ="app">
+    <nav class="navbar navbar-expand-lg" id="custom-navbar">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">
+            <span class="brand-text">I <span class="highlight">incubateur</span></span>
+          </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+              <!--<li class="nav-item">
+                <a class="nav-link" aria-current="page" @click="showDiv1" :class="{ 'active': divToShow === 1 }">Affichage</a>
+              </li>-->
+              <li class="nav-item" >
+                <a class="nav-link" @click="showDiv4" :class="{ 'active': divToShow === 4 }">Affichage des messages</a>
+              </li>
+              <li class="nav-item" >
+                <a class="nav-link" @click="showDiv2" :class="{ 'active': divToShow === 2 }">Création de message</a>
+              </li>
+             <!-- <li class="nav-item" >
+                <a class="nav-link"  @click="showDiv3" :class="{ 'active': divToShow === 3 }">Historique des messages</a>
+              </li>-->
+              
+            </ul>
+          </div>
+        </div>
+      </nav>
+     
+
+   
+      <div v-show="divToShow === 1">
+            <form method="POST" id ="hanA">
+                <!-- Champ de texte -->
+                <label for="email">Email emetteur:</label>
+                <input type="text" id="email" name="email"/>
+                <br/>
+
+                <!-- Liste déroulante -->
+                <label for="choix">Choix :</label>
+                <select id="choix" name="choix">
+                    <option value="Restaurant">Fabuleuse cantine</option>
+                    <option value="Entreprise">Entreprise</option>
+                    <option value="FST">FST</option>
+                    <option value="Cite du design">Cité du design</option>
+                </select>
+                <button type="submit">Envoyer</button>
+                <br/>
+                
+            </form>
+      </div>
+      
+      <div v-show="divToShow === 2">
+        <div id="message" class="row mt-4">
+            <div class="col-md-4" id="fixedDiv">
+                <div class="list-group">
+                    <a></a>
+                    <a href="#" class="list-group-item list-group-item-action" @click="showChoixDiv1" :class="{ 'active': divChoixToShow === 1 }">Fabuleuse cantine</a>
+                    <a href="#" class="list-group-item list-group-item-action" @click="showChoixDiv2" :class="{ 'active': divChoixToShow === 2 }">Entreprise</a>
+                    <a href="#" class="list-group-item list-group-item-action" @click="showChoixDiv3" :class="{ 'active': divChoixToShow === 3 }">FST</a>
+                    <a href="#" class="list-group-item list-group-item-action" @click="showChoixDiv4" :class="{ 'active': divChoixToShow === 4 }">Cité du design</a>
+                </div>
+                
+            </div>
+            <div class="col-md-8">
+                <!-- Contenu associé à la sélection -->
+                <div class="message-content">
+                    <div v-show="divChoixToShow === 0">
+                        <h3>Bienvenue sur l'interface de Création de message</h3>
+                        
+                    </div>
+                    <div v-show="divChoixToShow === 1" id = "CantineMessage">
+                        <h3>Commande à la fabuleuse cantine pour un événement</h3>
+                        <form method="POST" @submit.prevent="submitCantineForm">
+                            <div id="CforumePolitesse">
+                                <h4>Formule de politesse</h4>
+                                <div id="CFPReponse">
+                                    <select id = "CFPTextDeroulant" v-model="politesse">
+                                        <option></option>
+                                        <option>je prends l'initiative de vous contacter pour passer commande en vue d'un evenement.</option>
+                                        <option>je me permets de vous ecrire pour organiser une commande pour un evenement.</option>
+                                        <option>je souhaite passer une commande pour un evenement et je me permets donc de vous contacter a ce sujet</option>
+                                        <option>je vous adresse ce message pour discuter d'une commande pour un evenement a venir.</option>
+
+                                    </select>
+                                    <textarea id="CFPTextArea" rows="5" cols ="50" v-model="politesseText"></textarea>
+                                </div>
+                            </div>
+                            <div id= "CDate" >
+                                <label for="datePicker">Sélectionnez une date :</label>
+                                <input type="date" id="datePicker" v-model="date">
+                            </div>
+                            <div id = "CNombrePersonne" >
+                                <h4>Séléctionner le nombre de personne</h4>
+                                <select id = "CNPTextDeroulant" v-model="CNombrePersonne">
+                                    <option v-for="number in 100" :key="number">{{ number }}</option>
+                                </select>
+                            </div>
+                            <div id = "CIntroduction">
+                                <h4>objet de la demande</h4>
+                                <p>Information sur le menu</p>
+                                <select id = "CNPT1" v-model="menu">
+                                    <option>
+                                        Serait-il possible d'obtenir des informations sur les options de menu disponibles, les tarifs ainsi que les eventuelles possibilites de personnalisation pour cet evenement ?
+                                    </option>
+                                    <option></option>
+                                </select>
+                                <p>Information sur le moyen de paiement</p>
+                                <select id = "CNPT1" v-model="paiement">
+                                    <option>
+                                        De plus, pourriez vous nous fournir des details concernant les modalites de commande, les delais requis et toute autre information pertinente pour faciliter notre prise de decision ?
+                                    </option>
+                                    <option></option>
+                                </select>
+                                <p>Formule de fin de message</p>
+                                <textArea id = "CNPT1" rows = "4" cols ="150" v-model="finCantine">Nous sommes tres enthousiastes a l'idee de collaborer avec votre restaurant pour cet evenement et nous serions reconnaissants de recevoir votre assistance pour que celui ci soit memorable.
+Je vous remercie par avance pour votre attention et reste a votre disposition pour toute clarification supplementaire si necessaire.
+                                    </textArea>
+                            </div>
+                            <div id = "CDateExp" >
+                              <h4>Séléctionner le nombre de jours ou le message est valide</h4>
+                              <select id = "CNPTextDeroulant" v-model="CNombreJourValide">
+                                  <option v-for="number in 87" :key="number">{{ number+2 }}</option>
+                              </select>
+                              <p></p>
+                          </div>
+                          <div id ="CValider">
+                                    <button type = "submit">Envoyer</button>
+                                    <inuput type ="button" class = "buttonVisu"  v-on:click="VisuelCantine">Visuel</inuput>
+                          </div>
+                          <p class ="visuelTexte">{{visuel}}</p><!--Définir le CSS du visuel-->
+                        </form>
+                    </div>
+                    <div v-show="divChoixToShow === 2">
+                        <form id="entrepriseForm">
+                            <h3>Demande de mentor/intervenant à l'Entreprise</h3>
+
+                            <label for="formuleEntreprise">Formule de politesse :</label>
+                            <input type="text" id="formuleEntreprise" value="Bonjour Entreprise">
+                            <label for="introEntreprise">Introduction :</label>
+                            <textarea id="introEntreprise" rows="5" cols="50">Je me permets de vous ecrire ce mail afin de faire une demande de mentorat au sujet d'une startup.</textarea>
+                            <label for="nomStartup">Nom de la startup :</label>
+                            <input type="text" id="nomStartup" value="AgroRapide">
+                            <label for="objectifStartup">Objectif de la startup :</label>
+                            <textarea id="objectifStartup" rows="5" cols="50">Elle propose une plateforme web qui permet la mise en relation de plusieurs entreprises dans l'agroalimentaire.</textarea>
+                            <label for="besoinStartup">Besoin :</label>
+                            <textarea id="besoinStartup" rows="5" cols="50">Cette startup actuellement ne dispose d'aucun mentor dans le milieu de l'entrepreneuriat et nous souhaitons un mentor afin qu'elle puisse apprendre de l'experience du mentor.</textarea>
+                            <button type="submit">Envoyer</button>
+                        </form>
+                    </div>
+                    <div v-show="divChoixToShow === 3">
+                        <form id="fstForm">
+                            <h3>Invitation de FST à la participation d'un évenement</h3>
+                            <label for="formuleFST">Formule de politesse :</label>
+                            <input type="text" id="formuleFST" value="Bonjour FST">
+                            <label for="introFST">Introduction :</label>
+                            <textarea id="introFST" rows="5" cols="50">Nous vous contactons au sujet d'un événement que nous organisons.</textarea>
+                            <label for="sujetEvenement">Sujet de l'événement :</label>
+                            <input type="text" id="sujetEvenement">
+                            <label for="dateEvenement">Date de l'événement :</label>
+                            <input type="date" id="dateEvenement">
+                            <button type="submit">Envoyer</button>
+                        </form>
+                    </div>
+                    
+                    <div v-show="divChoixToShow === 4">
+                        <form id="designForm">
+                            <h3>Demande à la cité du design pour une startup</h3>
+                            <label for="formuleDesign">Formule de politesse :</label>
+                            <input type="text" id="formuleDesign" value="Bonjour Entreprise">
+                            <label for="introDesign">Introduction :</label>
+                            <textarea id="introDesign" rows="5" cols="50">Je me permets de vous écrire ce mail afin de faire une demande de mentorat au sujet d'une startup.</textarea>
+                            <label for="nomStartupDesign">Nom de la startup :</label>
+                            <input type="text" id="nomStartupDesign" value="AgroRapide">
+                            <label for="objectifStartupDesign">Objectif de la startup :</label>
+                            <textarea id="objectifStartupDesign" rows="5" cols="50">Elle propose une plateforme web qui permet la mise en relation de plusieurs entreprises dans l'agroalimentaire.</textarea>
+                            <label for="dateDesign">Date :</label>
+                            <input type="date" id="dateDesign">
+                            <label for="tachesDesign">Tâches :</label>
+                            <textarea id="tachesDesign" rows="5" cols="50">...</textarea>
+                            <button type="submit">Envoyer</button>
+                        </form>
+                    </div>
+                
+            </div>
+        </div>
+        </div>
+      </div>
+      <div v-show="divToShow === 3">
+        <h3>Historique d'envoi des messages</h3>
+      </div>
+      <div v-show="divToShow === 4">
+        <div id="message" class="row mt-4">
+          <div class="col-md-4" id="fixedDiv">
+              <div class="list-group">
+                 <a href="#" class="list-group-item list-group-item-action" @click="showChoixADiv5" :class="{ 'active': divChoixAToShow === 5 }">Tous</a>
+                  <a href="#" class="list-group-item list-group-item-action" @click="showChoixADiv1" :class="{ 'active': divChoixAToShow === 1 }">Fabuleuse cantine</a>
+                  <a href="#" class="list-group-item list-group-item-action" @click="showChoixADiv2" :class="{ 'active': divChoixAToShow === 2 }">Entreprise</a>
+                  <a href="#" class="list-group-item list-group-item-action" @click="showChoixADiv3" :class="{ 'active': divChoixAToShow === 3 }">FST</a>
+                  <a href="#" class="list-group-item list-group-item-action" @click="showChoixADiv4" :class="{ 'active': divChoixAToShow === 4 }">Cité du design</a>
+                  <a href="#" class="list-group-item list-group-item-action" @click="showChoixADiv6" :class="{ 'active': divChoixAToShow === 6 }">Envoyé</a>
+              </div>
+          </div>
+
+          <div class="col-md-8">
+            <div class="message-content">
+    
+              <div v-show="divChoixAToShow === 5" id = "afficheTous">
+                <h3>Tous les messages</h3>
+
+                  <div class="accordion" id="accordionExample">
+                    <div class="accordion-item" v-for="(item, index) in accordionItems" :key="index">
+                      <h2 class="accordion-header">
+                        <button class="accordion-button" type="button" @click="toggleAccordion(index)">
+                          {{ item.title }}
+                        </button>
+                      </h2>
+                      <div :id="'collapse-' + index" class="accordion-collapse collapse" :class="{ 'show': item.isOpen }">
+                        <div class="accordion-body" v-html="item.content"></div>
+                      </div>
+                    </div>
+                  </div>
+                
+
+              </div>
+              <div v-show="divChoixAToShow === 1" id = "afficheTous">
+              <h3>Messages de la fabuleuse cantine</h3>
+              <div class="accordion" id="accordionExample">
+                <div class="accordion-item" v-for="(item, index) in accordionItemsCantine" :key="index">
+                  <h2 class="accordion-header">
+                    <button class="accordion-button" type="button" @click="toggleAccordionCantine(index)">
+                      {{ item.title }}
+                    </button>
+                  </h2>
+                  <div :id="'collapse-' + index" class="accordion-collapse collapse" :class="{ 'show': item.isOpen }">
+                    <div class="accordion-body" v-html="item.content"></div>
+                  </div>
+                </div>
+              </div>
+              </div>
+              <div v-show="divChoixAToShow === 2" id = "afficheTous">
+              <h3>Message de l'entreprise</h3>
+                <div class="accordion" id="accordionExample">
+                  <div class="accordion-item" v-for="(item, index) in accordionItemsEntreprise" :key="index">
+                    <h2 class="accordion-header">
+                      <button class="accordion-button" type="button" @click="toggleAccordionEntreprise(index)">
+                        {{ item.title }}
+                      </button>
+                    </h2>
+                    <div :id="'collapse-' + index" class="accordion-collapse collapse" :class="{ 'show': item.isOpen }">
+                      <div class="accordion-body">{{ item.content }}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div v-show="divChoixAToShow === 3" id = "afficheTous">
+                <h3>Message du FST</h3>
+                <div class="accordion" id="accordionExample">
+                  <div class="accordion-item" v-for="(item, index) in accordionItemsFST" :key="index">
+                    <h2 class="accordion-header">
+                      <button class="accordion-button" type="button" @click="toggleAccordionFST(index)">
+                        {{ item.title }}
+                      </button>
+                    </h2>
+                    <div :id="'collapse-' + index" class="accordion-collapse collapse" :class="{ 'show': item.isOpen }">
+                      <div class="accordion-body">{{ item.content }}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div v-show="divChoixAToShow === 4" id = "afficheTous">
+                <h3>Message de la cité du design</h3>  
+                <div class="accordion" id="accordionExample">
+                  <div class="accordion-item" v-for="(item, index) in accordionItemsDesign" :key="index">
+                    <h2 class="accordion-header">
+                      <button class="accordion-button" type="button" @click="toggleAccordionDesign(index)">
+                        {{ item.title }}
+                      </button>
+                    </h2>
+                    <div :id="'collapse-' + index" class="accordion-collapse collapse" :class="{ 'show': item.isOpen }">
+                      <div class="accordion-body">{{ item.content }}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div v-show="divChoixAToShow === 6" id = "afficheTous">
+                <h3>Message Envoyés</h3>  
+                <div class="accordion" id="accordionExample">
+                  <div class="accordion-item" v-for="(item, index) in accordionItemsEnvoye" :key="index">
+                    <h2 class="accordion-header">
+                      <button class="accordion-button" type="button" @click="toggleAccordionEnvoye(index)">
+                        {{ item.title }}
+                      </button>
+                    </h2>
+                    <div :id="'collapse-' + index" class="accordion-collapse collapse" :class="{ 'show': item.isOpen }">
+                      <div class="accordion-body" v-html="item.content"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+      </div>
+  
+      </div>
+      <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+  <script>
+    new Vue({
+      el: '#app',
+      data: {
+        divToShow: 4, 
+        divChoixToShow: 1,
+        divChoixAToShow: 0,
+        politesse:'',
+        politesseText:'',
+        date:'',
+        CNombrePersonne:'',
+        CNombreJourValide:'3',
+        menu:'',
+        paiement:'',
+        finCantine:'',
+        visuel:'Aucun visuel',
+        entreprises: [],
+        //Affichage des MESSAGES
+        messagesBDD: [],
+        messagesTous:[],
+        messagesCantine:[],
+        messagesEntreprise:[],
+        messagesDesign:[],
+        messagesFST:[],
+        messagesEnvoye:[],
+        //accordeon
+        accordionItems: [],
+        accordionItemsCantine: [],
+        accordionItemsEntreprise: [],
+        accordionItemsFST: [],
+        accordionItemsDesign: [],
+        accordionItemsEnvoye: [],
+
+      },
+      methods: {
+        toggleAccordion(index) {
+        this.accordionItems.forEach((item, i) => {
+          if (index === i) {
+            item.isOpen = !item.isOpen;
+          } else {
+            item.isOpen = false;
+          }
+        });
+      },
+      toggleAccordionCantine(index) {
+        this.accordionItemsCantine.forEach((item, i) => {
+          if (index === i) {
+            item.isOpen = !item.isOpen;
+          } else {
+            item.isOpen = false;
+          }
+        });
+      },
+      toggleAccordionEntreprise(index) {
+        this.accordionItemsEntreprise.forEach((item, i) => {
+          if (index === i) {
+            item.isOpen = !item.isOpen;
+          } else {
+            item.isOpen = false;
+          }
+        });
+      },
+      toggleAccordionFST(index) {
+        this.accordionItemsFST.forEach((item, i) => {
+          if (index === i) {
+            item.isOpen = !item.isOpen;
+          } else {
+            item.isOpen = false;
+          }
+        });
+      },
+      toggleAccordionDesign(index) {
+        this.accordionItemsDesign.forEach((item, i) => {
+          if (index === i) {
+            item.isOpen = !item.isOpen;
+          } else {
+            item.isOpen = false;
+          }
+        });
+      },
+      toggleAccordionEnvoye(index) {
+        this.accordionItemsEnvoye.forEach((item, i) => {
+          if (index === i) {
+            item.isOpen = !item.isOpen;
+          } else {
+            item.isOpen = false;
+          }
+        });
+      },
+        VisuelCantine: function (event){
+          let content = `Bonjour La fabuleuse cantine, ${this.politesse}${this.politesseText}.
+Nous prevoyons d'organiser un evenement le ${this.date} et nous serions honorés de faire appel a vos services.
+ Nous avons besoin de prevoir un menu pour un total de participants egal a ${this.CNombrePersonne}.
+ ${this.menu}
+ ${this.paiement}
+ ${this.finCantine}`;
+        this.visuel = content;
+        let senderOrganization = "Use'In";
+        let receiverOrganization = "Restaurant";
+        console.log("OKKKK");
+        },
+        isASCII(str) {
+        return /^[\x00-\x7F]*$/.test(str);
+        },
+       
+        submitCantineForm() {
+            
+        // Concaténation des infos du formulaire
+        let content = `Bonjour La fabuleuse cantine, ${this.politesse}${this.politesseText}.
+Nous prevoyons d'organiser un evenement le ${this.date} et nous serions honores de faire appel a vos services
+ Nous avons besoin de prevoir un menu pour un total de participants egal a ${this.CNombrePersonne}.
+ ${this.menu}
+ ${this.paiement}
+ ${this.finCantine}`;
+        let senderOrganization = "Use'In";
+        let receiverOrganization = "Restaurant";
+        let dateDiffusion = Date.now();
+
+     
+        let dateExpiration = new Date();
+        console.log("> nbr jour : "+this.CNombreJourValide);
+        dateExpiration.setDate(dateExpiration.getDate()+parseInt(this.CNombreJourValide));
+        console.log(content.length);
+        console.log(dateExpiration.getDate());
+        if(content.length<1000 && this.isASCII(content) == true){
+
+          //Rechercher l'id du receveur
+
+         //String content, Date dateDiffusion, Entreprise senderOrganization, Entreprise receiverOrganization, Date dateExpiration
+
+         const data = {
+            content: content,
+            dateDiffusion: dateDiffusion,
+            senderOrganization: this.entreprises[0],
+            receiverOrganization: this.entreprises[3],
+            dateExpiration:  dateExpiration
+        };
+         //Obtenir la date
+        const today = new Date(); // Obtenez la date actuelle
+
+        const year = today.getFullYear(); // Obtenez l'année
+        const month = String(today.getMonth() + 1).padStart(2, '0'); //(ajout de 1 car les mois sont indexés de 0 à 11)
+        const day = String(today.getDate()).padStart(2, '0');
+
+        const dateText = `${year}${month}${day}`; 
+        const dateTextXML = `${year}/${month}/${day}`; 
+        //
+        console.log(content);
+        // Ensuite, envoyez message à votre backend via une requête HTTP
+        // axios.post('/save/cantine', { message })
+        //   .then(response => {
+        //     console.log(response.data);
+        //   })
+        //   .catch(error => {
+        //     console.error(error);
+        //   });
+         // Création du document XML
+         //Faire la gestion d'id; importence, checkSum, Fermeture de la conversation
+        let xmlContent = `<fichier identifiant="FICHAMIE92842K">
+    <entete>
+        <nbMessage>1</nbMessage>
+        <checkSum></checkSum>
+        <orgranisation>
+            <emettrice>`+this.entreprises[0].name+`</emettrice>
+            <receptrice>`+this.entreprises[3].name+`</receptrice> 
+        </orgranisation>
+        <date>`+dateTextXML+`</date>
+    </entete>
+    
+    <messages>
+        <message id="MESSADFOAM02943">
+            <entete>
+                <date>`+dateTextXML+`</date>
+                <importance>3</importance>
+
+                <validite>`+dateExpiration.toISOString().slice(0, 10)+`</validite>
+                <fermetureConversation>Non</fermetureConversation>
+                
+            </entete>
+            
+            <contenu>
+              <FormulePolitesse>
+                Bonjour La fabuleuse cantine, ${this.politesse}${this.politesseText}.
+Nous prevoyons d'organiser un evenement le
+              </FormulePolitesse>
+
+
+              <date>
+                `+ this.date+`
+              </date>
+              <nombrePersonne>
+                `+this.CNombrePersonne+`
+              </nombrePersonne>
+
+              
+              <Introduction>
+et nous serions honores de faire appel a vos services
+ Nous avons besoin de prevoir un menu pour un total de participants egal a
+ ${this.menu}
+ ${this.paiement}
+ ${this.finCantine}
+              </Introduction>
+
+    
+          </contenu>
+
+
+        <message>
+    </messages>
+</fichier>`;
+
+        // Création d'un objet Blob
+        let blob = new Blob([xmlContent], { type: "text/xml" });
+
+        // Création d'un objet URL à partir du Blob
+        let url = window.URL.createObjectURL(blob);
+
+        // Création d'un élément <a> pour télécharger le fichier XML
+        let a = document.createElement("a");
+        a.href = url;
+       
+        a.download = dateText.toString()+".xml";
+        document.body.appendChild(a);
+        
+        // Téléchargement du fichier XML
+        a.click();
+        // Suppression de l'élément <a> après le téléchargement
+        document.body.removeChild(a);
+
+        console.log("E>"+this.entreprises[0]);
+        console.log("E>"+this.entreprises);
+
+        // Utilisation d'Axios pour envoyer les données
+        axios.post('http://localhost:8081/api/saveData', data)
+            .then(response => {
+                console.log(response.data);
+                // Faire quelque chose avec la réponse si nécessaire
+                alert("Le message à bien été créer");
+            })
+            .catch(error => {
+                console.error(error);
+                // Gérer les erreurs
+            });
+          }else if(content.length>=1000){
+            alert("Le message n'a pas été énvoyé car le message fait "+content.length+" et à dépassez la limite de caractère autoriser qui est de 1000.");
+          }else if(this.isASCII(content) == false){
+            alert("Le message n'a pas été énvoyé car le message n'est pas dans la norme ASCII est de ce fait à été rejeter.");
+            
+          }
+        },
+        remountLogic() {
+          axios.get('http://localhost:8081/api/entreprises/all') // Remplacez avec l'URL de votre endpoint
+            .then(response => {
+              // Mettre à jour le tableau d'entreprises avec les données récupérées depuis le backend
+              this.entreprises = response.data;
+              console.log(this.entreprises[1].name);
+             
+            })
+            .catch(error => {
+              console.error('Erreur lors de la récupération des entreprises : ', error);
+            });
+            axios.get('http://localhost:8081/api/messages/all') // Remplacez avec l'URL de votre endpoint
+            .then(response => {
+              // Mettre à jour le tableau d'entreprises avec les données récupérées depuis le backend
+              this.messagesBDD = response.data;
+              this.accordionItems = [];
+              this.accordionItemsCantine = [];
+              this.accordionItemsEntreprise = [];
+              this.accordionItemsEnvoye = [];
+              this.accordionItemsFST = [];
+              this.accordionItemsDesign = [];
+
+              this.loadMessages();
+            })
+            .catch(error => {
+              console.error('Erreur lors de la récupération des messages : ', error);
+            });
+        },
+        showDiv1() {
+          this.divToShow = 1; // Afficher Div 1
+          this.remountLogic();
+        },
+        showDiv2() {
+          this.divToShow = 2; // Afficher Div 2
+          this.remountLogic();
+        },
+        showDiv3() {
+          this.divToShow = 3; // Afficher Div 3
+          this.remountLogic();
+        }, 
+        showDiv4() {
+          this.divToShow = 4; // Afficher Div 3
+          this.remountLogic();
+        },
+        showChoixDiv1() {
+          this.divChoixToShow = 1; // Afficher Div 1
+        },
+        showChoixDiv2() {
+          this.divChoixToShow = 2; // Afficher Div 2
+        },
+        showChoixDiv3() {
+          this.divChoixToShow = 3; // Afficher Div 3
+        },
+        showChoixDiv4() {
+          this.divChoixToShow = 4; // Afficher Div 4
+        },
+        showChoixADiv1() {
+          this.divChoixAToShow = 1; // Afficher Div 1
+        },
+        showChoixADiv2() {
+          this.divChoixAToShow = 2; // Afficher Div 2
+        },
+        showChoixADiv3() {
+          this.divChoixAToShow = 3; // Afficher Div 3
+        },
+        showChoixADiv4() {
+          this.divChoixAToShow = 4; // Afficher Div 4
+        },
+        showChoixADiv5() {
+          this.divChoixAToShow = 5; // Afficher Div 4
+        },
+        showChoixADiv6() {
+          this.divChoixAToShow = 6; // Afficher Div 4
+        },
+        loadMessages() {
+          for (let i = 0; i < this.messagesBDD.length; i++) {
+            if (this.messagesBDD[i].senderOrganization.idCompany == 2) {//accordionItemsEntreprise
+              const newItem = {
+                title: "["+this.messagesBDD[i].dateDiffusion+"]"+" Message numéro " + this.messagesBDD[i].idMessage,
+                content: this.messagesBDD[i].content,
+                isOpen: false
+              };
+              
+              this.accordionItemsEntreprise.push(newItem);
+            }
+            if (this.messagesBDD[i].senderOrganization.idCompany == 3) {
+              const newItem = {
+                title: "["+this.messagesBDD[i].dateDiffusion+"]"+" Message numéro " + this.messagesBDD[i].idMessage,
+                content: this.messagesBDD[i].content,
+                isOpen: false
+              };
+              
+              this.accordionItemsFST.push(newItem);
+            }
+            if (this.messagesBDD[i].senderOrganization.idCompany == 4) {
+               const votreJSON = this.messagesBDD[i].content;
+                            
+                let valeursLisibles = '<p>';
+
+                  function parcourirJSON(obj) {
+                  for (const key in obj) {
+                    if (obj.hasOwnProperty(key)) {
+                      const value = obj[key];
+
+                      if (typeof value === 'object') {
+                        parcourirJSON(value);
+                        console.log(key.valueOf());
+                      } else {//descriptionEntreprise//nomEntree//nomPlat//nomDessert//formulePolitesses//nomEntreprise//numTel//numeroRue
+                        if(key === `marqueDePolitesses`){
+                          valeursLisibles += `<strong>Marque de politesse :</strong> ${value}<br>\n`; // Ajout de la clé et de la valeur
+                        }else if(key === `numeroRue`){
+                          valeursLisibles += `<strong>Numéro de la rue :</strong> ${value}<br>\n`; // Ajout de la clé et de la valeur
+                        }else if(key === `numTel`){
+                          valeursLisibles += `<strong>Numéro de téléphone :</strong> ${value}<br>\n`; // Ajout de la clé et de la valeur
+                        }else if(key === `nomEntreprise`){
+                          valeursLisibles += `<strong>Nom de l'entreprise :</strong> ${value}<br>\n`; // Ajout de la clé et de la valeur
+                        }else if(key === `formule de politesse`){
+                          valeursLisibles += `<strong>Formule de politesse :</strong> ${value}<br>\n`; // Ajout de la clé et de la valeur
+                        }else if(key === `nomDessert`){
+                          valeursLisibles += `<strong>Nom du dessert :</strong> ${value}<br>\n`; // Ajout de la clé et de la valeur
+                        }else if(key === `nomPlat`){
+                          valeursLisibles += `<strong>Nom du plat :</strong> ${value}<br>\n`; // Ajout de la clé et de la valeur
+                        } else if(key === `descriptionEntreprise`){
+                          valeursLisibles += `<strong>Description de l'entreprise :</strong> ${value}<br>\n`; // Ajout de la clé et de la valeur
+                        }else  if(key === `nomEntree`){
+                          valeursLisibles += `<strong>Nom de l'entrée :</strong> ${value}<br>\n`; // Ajout de la clé et de la valeur
+                        }else{
+                          valeursLisibles += `<strong>${key}:</strong> ${value}<br>\n`; // Ajout de la clé et de la valeur
+                        }
+                      }
+                    }
+                  }
+                }
+              const objetJSON = JSON.parse(votreJSON);
+              parcourirJSON(objetJSON);
+              valeursLisibles += `</p>`;
+              const newItem = {
+                title: "["+this.messagesBDD[i].dateDiffusion+"]"+" Message numéro " + this.messagesBDD[i].idMessage,
+                content: valeursLisibles,
+                isOpen: false
+              };
+             
+              this.accordionItemsCantine.push(newItem);
+              this.accordionItems.push(newItem);
+            }
+            if (this.messagesBDD[i].senderOrganization.idCompany == 5) {
+              const newItem = {
+                title: "["+this.messagesBDD[i].dateDiffusion+"]"+" Message numéro " + this.messagesBDD[i].idMessage,
+                content: this.messagesBDD[i].content,
+                isOpen: false
+              };
+              
+              this.accordionItemsDesign.push(newItem);
+            }
+            if (this.messagesBDD[i].senderOrganization.idCompany == 1) {
+              const newItem = {
+                title: "["+this.messagesBDD[i].dateDiffusion+"]"+" Message numéro " + this.messagesBDD[i].idMessage,
+                content: this.messagesBDD[i].content,
+                isOpen: false
+              };
+              
+              this.accordionItemsEnvoye.push(newItem);
+            }
+            const newItem = {
+                title: this.messagesBDD[i].senderOrganization.name+" ["+this.messagesBDD[i].dateDiffusion+"]"+" Message numéro " + this.messagesBDD[i].idMessage,
+                content: this.messagesBDD[i].content,
+                isOpen: false
+              };
+              if (this.messagesBDD[i].senderOrganization.idCompany == 4) {}else{
+              this.accordionItems.push(newItem);}
+          }
+        },
+
+      },
+      mounted() {
+          axios.get('http://localhost:8081/api/entreprises/all') // Remplacez avec l'URL de votre endpoint
+            .then(response => {
+              // Mettre à jour le tableau d'entreprises avec les données récupérées depuis le backend
+              this.entreprises = response.data;
+              console.log(this.entreprises[1].name);
+             
+            })
+            .catch(error => {
+              console.error('Erreur lors de la récupération des entreprises : ', error);
+            });
+            axios.get('http://localhost:8081/api/messages/all') // Remplacez avec l'URL de votre endpoint
+            .then(response => {
+              // Mettre à jour le tableau d'entreprises avec les données récupérées depuis le backend
+              this.messagesBDD = response.data;
+              this.loadMessages();
+            })
+            .catch(error => {
+              console.error('Erreur lors de la récupération des messages : ', error);
+            });
+        },
+    });
+
+    /*
+Salutations, Nous sommes une startup passionnee par notre produit et sa vision.
+ Nous cherchons activement un mentor pour nous guider dans cette aventure excitante.
+ Votre experience et vos conseils seraient inestimables pour notre croissance.
+ Si vous etes dispose(e) a partager vos connaissances et a nous aider a naviguer dans les defis du demarrage,
+ nous serions honores de pouvoir echanger avec vous.
+
+Merci d'envisager de contribuer a notre parcours entrepreneurial.
+    */
+    
+  </script>
+    <script>
+        // Sélectionnez l'élément input avec son ID
+    $('#datePicker').datepicker({
+        format: 'dd/mm/yyyy', // Choisissez le format de date souhaité
+        autoclose: true // Ferme automatiquement le calendrier une fois une date sélectionnée
+    });
+
+ </script>
+
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
+<!-- JS Bootstrap -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script></body>
+
+
+
+</html>
+<!--
+  jdbc:h2:~/Documents/GitHub/iincubator/DDS/iincubator/buisnesshq
+-->

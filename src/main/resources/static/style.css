@@ -1,0 +1,292 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 20px;
+}
+
+h2 {
+    color: #333;
+}
+
+form {
+    margin: 0;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+#hanA{
+
+    margin: 0 auto;
+    margin-top: 10%;
+
+    max-width: 400px;
+}
+label {
+    display: block;
+    margin-bottom: 8px;
+    color: #333;
+}
+
+input, select {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 15px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+button {
+    background-color: #4caf50;
+    color: #fff;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+/* 
+Changement
+*/
+
+#custom-navbar {
+    background-color: #FFFFFF;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+#custom-navbar .navbar-brand {
+    color: #7E57C2;
+    font-weight: bold;
+    padding: 10px 15px; /* Ajoute un peu d'espace autour du texte */
+
+  }
+  
+  #custom-navbar .nav-link {
+    color: #7E57C2;
+    transition: color 0.3s ease-in-out;
+  }
+  
+#custom-navbar .nav-link:hover {
+    color: #511fb4; /* Couleur violette légèrement plus foncée au survol */
+    font-weight: bold;
+  }
+
+  .brand-text {
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  .highlight {
+    color: #7E57C2; /* Couleur violette pour mettre en évidence */
+  }
+.nav-link{
+    cursor:grab;
+}
+  /* CSS pour activer le défilement horizontal */
+.scrollable-dropdown .select2-results__options {
+    max-height: 200px; /* Hauteur maximale avec barre de défilement */
+    overflow-x: auto; /* Défilement horizontal */
+    white-space: nowrap; /* Empêcher le texte de passer à la ligne */
+  }
+
+.active {
+    font-weight: bold;
+}
+
+.list-group-item.active {
+    font-weight: bold;
+    color: #7b68ee;
+}
+.col-md-4 {
+    min-height: 100vh; /* ou une autre valeur pour garantir une hauteur */
+}
+
+#fixedDiv {
+    position: sticky;
+    top: 50px; 
+    z-index: 100;
+    height: 200px; 
+    overflow-y: auto
+}
+/* Appliquer une marge après chaque balise <br> */
+.accordion-body br {
+    display: block;
+    margin: 1em 0; /* Ajustez la valeur de la marge selon vos besoins */
+  }
+/*Formulaire*/
+#CantineMessage,#afficheTous {
+    padding: 20px;
+    border: 1px solid #7b68ee; /* Violet */
+    border-radius: 5px;
+    margin-top: 20px;
+    background-color: #fff; /* Blanc */
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Ombre légère */
+    transition: all 0.3s ease; /* Transition fluide */
+}
+
+#CantineMessage:hover,#afficheTous:hover {
+    transform: translateY(-5px); /* Animation au survol */
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2); /* Ombre plus prononcée au survol */
+}
+
+#CantineMessage h3,#afficheTous h3 {
+    margin-bottom: 20px;
+    color: #7b68ee; /* Violet */
+}
+
+#CforumePolitesse,
+#CDate,
+#CNombrePersonne,
+#CIntroduction,
+#CValider {
+    margin-bottom: 20px;
+}
+
+#CforumePolitesse select,
+#CforumePolitesse textarea,
+#CDate input,
+#CNombrePersonne select,
+#CIntroduction select,
+#CIntroduction textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #7b68ee; /* Violet */
+    border-radius: 5px;
+    margin-bottom: 10px;
+    color: #7b68ee; /* Violet */
+    background-color: #fff; /* Blanc */
+    transition: border-color 0.3s ease, color 0.3s ease, background-color 0.3s ease; /* Transition fluide */
+}
+
+#CforumePolitesse select:focus,
+#CforumePolitesse textarea:focus,
+#CDate input:focus,
+#CNombrePersonne select:focus,
+#CIntroduction select:focus,
+#CIntroduction textarea:focus {
+    outline: none;
+    border-color: #5f4acc; /* Violet plus foncé au focus */
+    box-shadow: 0px 0px 5px rgba(95, 74, 204, 0.3); /* Légère ombre au focus */
+}
+
+#CValider button {
+    padding: 10px 20px;
+    background-color: #7b68ee; /* Violet */
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* Transition fluide */
+}
+
+#CValider button:hover {
+    background-color: #5f4acc; /* Violet plus foncé au survol */
+}
+.buttonVisu{
+    padding: 10px 20px;
+    background-color: #7b68ee; /* Violet */
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* Transition fluide */
+}
+.buttonVisu:hover{
+    background-color: #5f4acc; /* Violet plus foncé au survol */
+}
+
+#entrepriseForm,
+#fstForm,
+#designForm {
+    padding: 20px;
+    border: 1px solid #7b68ee; /* Violet */
+    border-radius: 5px;
+    margin-top: 20px;
+    background-color: #fff; /* Blanc */
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Ombre légère */
+    transition: all 0.3s ease; /* Transition fluide */
+}
+.visuelTexte{
+    border: 1px solid #7b68ee;
+    font-size: 18px;
+}
+#entrepriseForm:hover,
+#fstForm:hover,
+#designForm:hover {
+    transform: translateY(-5px); /* Animation au survol */
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2); /* Ombre plus prononcée au survol */
+}
+
+#entrepriseForm label,
+#fstForm label,
+#designForm label {
+    margin-bottom: 20px;
+}
+
+#entrepriseForm input,
+#entrepriseForm select,
+#entrepriseForm textarea,
+#fstForm input,
+#fstForm select,
+#fstForm textarea,
+#designForm input,
+#designForm select,
+#designForm textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #7b68ee; /* Violet */
+    border-radius: 5px;
+    margin-bottom: 10px;
+    color: #7b68ee; /* Violet */
+    background-color: #fff; /* Blanc */
+    transition: border-color 0.3s ease, color 0.3s ease, background-color 0.3s ease; /* Transition fluide */
+}
+
+#entrepriseForm input:focus,
+#entrepriseForm select:focus,
+#entrepriseForm textarea:focus,
+#fstForm input:focus,
+#fstForm select:focus,
+#fstForm textarea:focus,
+#designForm input:focus,
+#designForm select:focus,
+#designForm textarea:focus {
+    outline: none;
+    border-color: #5f4acc; /* Violet plus foncé au focus */
+    box-shadow: 0px 0px 5px rgba(95, 74, 204, 0.3); /* Légère ombre au focus */
+}
+
+#entrepriseForm button,
+#fstForm button,
+#designForm button {
+    padding: 10px 20px;
+    background-color: #7b68ee; /* Violet */
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* Transition fluide */
+}
+
+#entrepriseForm button:hover,
+#fstForm button:hover,
+#designForm button:hover {
+    background-color: #5f4acc; /* Violet plus foncé au survol */
+}
+
+#fstForm h3 {
+    margin-bottom: 20px;
+    color: #7b68ee; /* Violet */
+}
+#designForm h3 {
+    margin-bottom: 20px;
+    color: #7b68ee; /* Violet */
+}
+#entrepriseForm h3 {
+    margin-bottom: 20px;
+    color: #7b68ee; /* Violet */
+}
